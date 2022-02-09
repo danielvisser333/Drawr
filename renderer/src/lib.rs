@@ -9,8 +9,11 @@ use ash::{Entry, Instance, extensions::khr::{Surface, Swapchain}, vk::{SurfaceKH
 use functions::{image::ImageAndView, device::QueueInfo, synchronization::Synchronizer, buffer::UniformBufferObject};
 use math::{UniformBuffer, camera::Camera, ModelMatrix};
 use rayon::ThreadPoolBuilder;
-use winit::{event_loop::{EventLoop, ControlFlow}, platform::{unix::EventLoopExtUnix, run_return::EventLoopExtRunReturn}, window::Window, event::{Event, WindowEvent, StartCause, VirtualKeyCode, DeviceEvent, MouseScrollDelta, MouseButton, ElementState}, dpi::PhysicalSize};
-
+use winit::{event_loop::{EventLoop, ControlFlow}, window::Window, event::{Event, WindowEvent, StartCause, VirtualKeyCode, DeviceEvent, MouseScrollDelta, MouseButton, ElementState}, dpi::PhysicalSize, platform::windows::EventLoopExtWindows};
+#[cfg(target_os="unix")]
+use winit::platform::{unix::EventLoopExtUnix, run_return::EventLoopExtRunReturn};
+#[cfg(target_os="windows")]
+use winit::platform::run_return::EventLoopExtRunReturn;
 const MAX_FRAMES_IN_FLIGHT : usize = 2;
 
 pub struct Renderer{
